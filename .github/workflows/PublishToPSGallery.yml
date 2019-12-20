@@ -12,6 +12,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Check if Nuget is installed
       run:
-        $PackageProvider = 'NuGet'
-        Get-PackageProvider -Name $PackageProvider
+        $Providers = (Get-PackageProvider).Name
+        ForEach ($Provider in $Providers) {$Provider | Out-Host}
         
