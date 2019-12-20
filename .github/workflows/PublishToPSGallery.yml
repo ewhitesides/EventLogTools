@@ -12,10 +12,10 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install PSScriptAnalyzer module
       run:
-        Install-Module -Name 'PSScriptAnalyzer'
-    - name: Check code against Invoke-PSScriptAnalyzer
+        Install-Module -Name 'PSScriptAnalyzer' -Force
+    - name: Check code against Invoke-ScriptAnalyzer
       run:
-        write-host "current path is $($pwd.path)"
-        get-childitem -path .
+        $Output = Invoke-ScriptAnalyzer -Path .
+        if ($Output) {Write-Error "Invoke-ScriptAnalyzer reported some issues"}
         
         
