@@ -13,6 +13,6 @@ jobs:
     - name: Install PSScriptAnalyzer module
       run:
         Install-Module -Name 'PSScriptAnalyzer' -Force
-    - name: Check code against Invoke-ScriptAnalyzer
+    - name: Run Invoke-ScriptAnalyzer
       run:
         if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer is reporting some issues"}
