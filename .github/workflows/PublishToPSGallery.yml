@@ -10,6 +10,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - name: run a one line cmd to see if this works
+    - name: Install Pester Module
       run:
         write-host 'hello!'
