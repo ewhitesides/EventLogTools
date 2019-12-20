@@ -10,8 +10,11 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Install PSScriptAnalyzer
+    - name: Install PSScriptAnalyzer module
       run:
-        Get-InstalledModule
+        Install-Module -Name 'PSScriptAnalyzer'
+    - name: Check code against Invoke-PSScriptAnalyzer
+      run:
+        ls -l
         
         
