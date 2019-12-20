@@ -16,3 +16,7 @@ jobs:
     - name: Run Invoke-ScriptAnalyzer
       run:
         if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer is reporting some issues"}
+    - name: Publish to PSGallery Repo
+      env:
+        key: ${{ secrets.EventLogToolsApiKey }} 
+      run:
