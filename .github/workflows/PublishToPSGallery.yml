@@ -15,6 +15,7 @@ jobs:
         Install-Module -Name 'PSScriptAnalyzer'
     - name: Check code against Invoke-PSScriptAnalyzer
       run:
-        ls -l
+        write-host "current path is $($pwd.path)"
+        write-host "get-childitem -path ."
         
         
