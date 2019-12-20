@@ -17,7 +17,7 @@ function Write-StreamToEventLog {
         [switch]$BreakOnError,
 
         [Parameter(Mandatory=$false)]
-        [switch]$BreakOnWarning,
+        [switch]$BreakOnWarning
     )
 
     #1 (Success)     (whatever input type is provided).
