@@ -1,0 +1,15 @@
+name: Powershell
+
+on: 
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: run a one line cmd to see if this works
+      run:
+        write-host 'hello!'
