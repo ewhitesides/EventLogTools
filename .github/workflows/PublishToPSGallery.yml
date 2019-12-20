@@ -10,6 +10,8 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Install Pester Module
+    - name: Check if Nuget is installed
       run:
-        write-host 'hello!'
+        $PackageProvider = 'NuGet'
+        Install-PackageProvider -Name $Using:PackageProvider -Force | Out-Null
+        
