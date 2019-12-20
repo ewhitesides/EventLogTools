@@ -13,5 +13,5 @@ jobs:
     - name: Check if Nuget is installed
       run:
         $PackageProvider = 'NuGet'
-        Install-PackageProvider -Name $Using:PackageProvider -Force | Out-Null
+        Get-PackageProvider -Name $PackageProvider
         
