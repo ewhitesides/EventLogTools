@@ -14,8 +14,7 @@ This is useful when you are trying to run a custom cmdlet on a schedule, and you
 | 5        | Debug          | [System.Management.Automation.DebugRecord]       | Information                        |
 | 6        | Information    | [System.Management.Automation.InformationRecord] | Information                        |
 
-Further info on powershell output streams can be found on 
-https://devblogs.microsoft.com/scripting/understanding-streams-redirection-and-write-host-in-powershell/
+Further info on powershell output streams can be found on https://devblogs.microsoft.com/scripting/understanding-streams-redirection-and-write-host-in-powershell/
 
 ## Usage Example
 ```powershell
