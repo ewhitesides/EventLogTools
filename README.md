@@ -7,7 +7,7 @@ This is useful when you are trying to run a custom cmdlet on a schedule, and you
 
 | Stream # | Stream Name    | Object Type                                      |
 |:---------|:---------------| :------------------------------------------------|
-| 1        | Output/Success | Whatever the output type is                      |
+| 1        | Output/Success | Whatever the type of the object being output is  |
 | 2        | Error          | [System.Management.Automation.ErrorRecord]       |
 | 3        | Warning        | [System.Management.Automation.WarningRecord]     |
 | 4        | Verbose        | [System.Management.Automation.VerboseRecord]     |
