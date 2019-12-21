@@ -1,5 +1,5 @@
 # EventLogTools
-As a cmdlet runs, it may output several verbose, information, warning, or error messages. 
+As a cmdlet runs, it may output several verbose, information, warning, or error messages.
 
 Write-StreamToEventLog takes each output message and passes it down to the Windows Event logname and source.
 
