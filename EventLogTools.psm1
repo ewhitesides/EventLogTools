@@ -20,13 +20,6 @@ function Write-StreamToEventLog {
         [switch]$BreakOnWarning
     )
 
-    #1 (Success)     (whatever input type is provided).
-    #2 (Error)       [System.Management.Automation.ErrorRecord]
-    #3 (Warning)     [System.Management.Automation.WarningRecord]
-    #4 (Verbose)     [System.Management.Automation.VerboseRecord]
-    #5 (Debug)       [System.Management.Automation.DebugRecord]
-    #6 (Information) [System.Management.Automation.InformationRecord]
-
     $EntryType = switch ($Stream.GetType().FullName) {
         'System.Management.Automation.ErrorRecord'   {'Error'}
         'System.Management.Automation.WarningRecord' {'Warning'}

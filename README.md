@@ -5,6 +5,18 @@ Write-StreamToEventLog takes each output message and passes it down to the Windo
 
 This is useful when you are trying to run a custom cmdlet on a schedule, and you use a logging utility to notify you of errors in the windows event log.
 
+| Stream # | Stream Name    | Object Type                                      |
+| ---------|:--------------:| ------------------------------------------------:|
+| 1        | Output/Success | Whatever the output type is                      |
+| 2        | Error          | [System.Management.Automation.ErrorRecord]       |
+| 3        | Warning        | [System.Management.Automation.WarningRecord]     |
+| 4        | Verbose        | [System.Management.Automation.VerboseRecord]     |
+| 5        | Debug          | [System.Management.Automation.DebugRecord]       |
+| 6        | Information    | [System.Management.Automation.InformationRecord] |
+
+Further info on powershell output streams can be found on 
+https://devblogs.microsoft.com/scripting/understanding-streams-redirection-and-write-host-in-powershell/
+
 ## Usage Example
 ```powershell
 New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
