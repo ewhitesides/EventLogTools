@@ -6,7 +6,7 @@ Write-StreamToEventLog takes each output message and passes it down to the Windo
 This is useful when you are trying to run a custom cmdlet on a schedule, and you use a logging utility to notify you of errors in the windows event log.
 
 | Stream # | Stream Name    | Object Type                                      |
-| ---------|:--------------:| ------------------------------------------------:|
+|:---------|:---------------| :------------------------------------------------|
 | 1        | Output/Success | Whatever the output type is                      |
 | 2        | Error          | [System.Management.Automation.ErrorRecord]       |
 | 3        | Warning        | [System.Management.Automation.WarningRecord]     |
