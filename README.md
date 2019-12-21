@@ -31,15 +31,19 @@ In your cmdlet, for begin,process, and end blocks, you may need to do something 
 allow the error messages to pass down the pipeline into Write-StreamToEventLog.
 
 ```powershell
-Try {
-    $ErrorActionPreference = 'Stop'
-    Command1
-    Command2
-    Command3
-}
-Catch {
-    $ErrorActionPreference = 'Continue' #allows error to be passed down the pipeline
-    $PSCmdlet.WriteError($_)
-    Break
+Function MyFunction {
+    [CmdletBinding()]
+    Param()
+    Try {
+        $ErrorActionPreference = 'Stop'
+        Command1
+        Command2
+        Command3
+    }
+    Catch {
+        $ErrorActionPreference = 'Continue' #allows error to be passed down the pipeline
+        $PSCmdlet.WriteError($_)
+        Break
+    }
 }
 ```
