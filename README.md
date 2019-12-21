@@ -3,16 +3,16 @@ As a cmdlet runs, it may output several verbose, information, warning, or error 
 
 Write-StreamToEventLog takes each output message and passes it down to the Windows Event logname and source.
 
-This is useful when you are trying to run a custom cmdlet on a schedule, and you use a logging utility to notify you of errors in the windows event log.
+This is useful when you are trying to run a custom cmdlet on a schedule, and you use a logging utility to parse the windows event log for warnings/errors.
 
-| Stream # | Stream Name    | Object Type                                      |
-|:---------|:---------------| :------------------------------------------------|
-| 1        | Output/Success | Whatever the type of the object being output is  |
-| 2        | Error          | [System.Management.Automation.ErrorRecord]       |
-| 3        | Warning        | [System.Management.Automation.WarningRecord]     |
-| 4        | Verbose        | [System.Management.Automation.VerboseRecord]     |
-| 5        | Debug          | [System.Management.Automation.DebugRecord]       |
-| 6        | Information    | [System.Management.Automation.InformationRecord] |
+| Stream # | Stream Name    | Object Type                                      | Resulting Windows Event Entry Type |
+|:---------|:---------------|:-------------------------------------------------|:-----------------------------------|
+| 1        | Output/Success | Whatever the type of the object being output is  | Information                        | 
+| 2        | Error          | [System.Management.Automation.ErrorRecord]       | Error                              |
+| 3        | Warning        | [System.Management.Automation.WarningRecord]     | Warning                            |
+| 4        | Verbose        | [System.Management.Automation.VerboseRecord]     | Information                        |
+| 5        | Debug          | [System.Management.Automation.DebugRecord]       | Information                        |
+| 6        | Information    | [System.Management.Automation.InformationRecord] | Information                        |
 
 Further info on powershell output streams can be found on 
 https://devblogs.microsoft.com/scripting/understanding-streams-redirection-and-write-host-in-powershell/
