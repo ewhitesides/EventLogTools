@@ -1,6 +1,6 @@
 # EventLogTools
 As a function runs, it may output several verbose, information, warning, or error messages. 
-Write-StreamToEventLog takes each output message and logs it to the Windows event log.
+Write-StreamToEventLog takes each message and logs it to the Windows event log.
 
 This is especially useful when you are trying to run a custom function on a schedule, 
 and you use a logging utility to parse the windows event log for warnings/errors.
