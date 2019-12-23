@@ -1,5 +1,5 @@
 # EventLogTools
-As a cmdlet runs, it may output several verbose, information, warning, or error messages.
+As a function runs, it may output several verbose, information, warning, or error messages.  
 
 Write-StreamToEventLog takes each output message and passes it down to the Windows Event logname and source.
 
@@ -31,11 +31,16 @@ allow the error messages to pass down the pipeline into Write-StreamToEventLog.
 Function MyFunction {
     [CmdletBinding()]
     Param()
+
+    #determines if MyFunction was called with Verbose switch.  
+    #If it was, $Verbose will be $true, and then you can use that further down in your module to output Verbose messages
+    $Verbose = $VerbosePreference -ne 'SilentlyContinue' 
+
     Try {
         $ErrorActionPreference = 'Stop'
-        Command1
-        Command2
-        Command3
+        Command1 -Verbose:$Verbose
+        Command2 -Verbose:$Verbose
+        Command3 -Verbose:$Verbose
     }
     Catch {
         $ErrorActionPreference = 'Continue' #allows error to be passed down the pipeline
