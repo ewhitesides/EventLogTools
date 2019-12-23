@@ -23,9 +23,8 @@ New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-Stream
 ```powershell
 New-LongRunningCommand *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 ```
-
-In my functions I've been following the below structure and it seems to work pretty well.
-In my eventlog, I will see the Verbose messages prior to the Error, and that will help clue me in to where the function failed.
+## Top tip
+Using a structure like the following, the Windows event log will have records of several verbose messages, and then the error message which caused the command to fail.
 
 ```powershell
 Function MyFunction {
@@ -36,10 +35,11 @@ Function MyFunction {
 
     Try {
         $ErrorActionPreference = 'Stop'
-        Command1 -Verbose:$Verbose #if MyFunction was called with Verbose switch, we want verbose output from this as well
-        Command2                   #this command generates a lot of misc verbose output, so we exclude it.
-        ErrorCommand               #this command generates an error
-        Command3 -Verbose:$Verbose #this command is never executed because of the above Error
+        Command1 -Verbose:$Verbose     #if MyFunction was called with Verbose switch, we want verbose output from this as well
+        Command2                       #this command generates a lot of misc verbose output, so we exclude it.
+        Write-Verbose 'this is a test' #if MyFunction was called with Verbose switch, then $VerbosePreference will equal 'Continue' and this message will be output
+        ErrorCommand                   #this command generates an error
+        Command3 -Verbose:$Verbose     #this command is never executed because of the above Error
     }
     Catch {
         $ErrorActionPreference = 'Continue' #allows error to be passed down the pipeline
