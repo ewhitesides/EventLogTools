@@ -1,9 +1,11 @@
 # EventLogTools
 As a function runs, it may output several verbose, information, warning, or error messages.  
 
-Write-StreamToEventLog takes each output message and passes it down to the Windows Event logname and source.
+Write-StreamToEventLog takes each output message and passes it down to the 
+Windows Event logname and source.
 
-This is useful when you are trying to run a custom cmdlet on a schedule, and you use a logging utility to parse the windows event log for warnings/errors.
+This is especially useful when you are trying to run a custom cmdlet on a schedule, 
+and you use a logging utility to parse the windows event log for warnings/errors.
 
 | Stream # | Stream Name    | Object Type                                      | Resulting Windows Event Entry Type |
 |:---------|:---------------|:-------------------------------------------------|:-----------------------------------|
@@ -24,20 +26,19 @@ New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-Stream
 New-LongAndComplexCmdlet *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 ```
 
-In your cmdlet, for begin,process, and end blocks, you probably need to do something like the following to 
-allow the error messages to pass down the pipeline into Write-StreamToEventLog.  If you have found 
-a better way of doing this let me know!
+In my cmdlets I've been following the below structure to pass errors down the pipeline into Write-StreamToEventLog.  
+If you have found a better way of doing this let me know!
 
 ```powershell
 Function MyFunction {
     [CmdletBinding()]
     Param()
 
-    $Verbose = $VerbosePreference -ne 'SilentlyContinue' #figures out if MyFunction was called with Verbose switch
+    $Verbose = $VerbosePreference -ne 'SilentlyContinue' #checks if MyFunction was called with Verbose switch
 
     Try {
         $ErrorActionPreference = 'Stop'
-        Command1 -Verbose:$Verbose
+        Command1 -Verbose:$Verbose #if MyFunction was called with Verbose switch, we want verbose output from this as well
         Command2 -Verbose:$Verbose
         Command3 -Verbose:$Verbose
     }
