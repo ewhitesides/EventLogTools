@@ -4,7 +4,7 @@ As a function runs, it may output several verbose, information, warning, or erro
 Write-StreamToEventLog takes each output message and passes it down to the 
 Windows Event logname and source.
 
-This is especially useful when you are trying to run a custom cmdlet on a schedule, 
+This is especially useful when you are trying to run a custom function on a schedule, 
 and you use a logging utility to parse the windows event log for warnings/errors.
 
 | Stream # | Stream Name    | Object Type                                      | Resulting Windows Event Entry Type |
@@ -23,10 +23,10 @@ New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-Stream
 
 ## Usage Example
 ```powershell
-New-LongAndComplexCmdlet *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
+New-LongRunningCommand *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 ```
 
-In my cmdlets I've been following the below structure to pass errors down the pipeline into Write-StreamToEventLog.  
+In my functions I've been following the below structure to stop on the first error and pass that error down the pipeline into Write-StreamToEventLog.  
 If you have found a better way of doing this let me know!
 
 ```powershell
