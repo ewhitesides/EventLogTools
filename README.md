@@ -24,7 +24,7 @@ New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-Stream
 New-LongRunningCommand *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 ```
 
-In my functions I've been following the below structure and it seems to work pretty well for diagnostic purposes.
+In my functions I've been following the below structure and it seems to work pretty well.
 In my eventlog, I will see the Verbose messages prior to the Error, and that will help clue me in to where the function failed.
 
 ```powershell
