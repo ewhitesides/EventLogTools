@@ -23,8 +23,8 @@ New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-Stream
 ```powershell
 New-LongRunningCommand *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 ```
-## Top tip
-Using a structure like the following, the Windows event log will have records of several verbose messages, and then the error message which caused the command to fail.
+## Example
+Example structure for a function that stops operation on the first error, and then sends the error message down the pipeline.
 
 ```powershell
 Function MyFunction {
