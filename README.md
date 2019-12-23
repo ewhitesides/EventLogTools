@@ -32,9 +32,7 @@ Function MyFunction {
     [CmdletBinding()]
     Param()
 
-    #determines if MyFunction was called with Verbose switch.  
-    #If it was, $Verbose will be $true, and then you can use that further down in your module to output Verbose messages
-    $Verbose = $VerbosePreference -ne 'SilentlyContinue' 
+    $Verbose = $VerbosePreference -ne 'SilentlyContinue' #figures out if MyFunction was called with Verbose switch
 
     Try {
         $ErrorActionPreference = 'Stop'
