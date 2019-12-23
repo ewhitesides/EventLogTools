@@ -24,8 +24,9 @@ New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-Stream
 New-LongAndComplexCmdlet *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 ```
 
-In your cmdlet, for begin,process, and end blocks, you may need to do something like the following to 
-allow the error messages to pass down the pipeline into Write-StreamToEventLog.
+In your cmdlet, for begin,process, and end blocks, you probably need to do something like the following to 
+allow the error messages to pass down the pipeline into Write-StreamToEventLog.  If you have found 
+a better way of doing this let me know!
 
 ```powershell
 Function MyFunction {
