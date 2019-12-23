@@ -39,7 +39,7 @@ Function MyFunction {
     Try {
         $ErrorActionPreference = 'Stop'
         Command1 -Verbose:$Verbose #if MyFunction was called with Verbose switch, we want verbose output from this as well
-        Command2 -Verbose:$Verbose
+        Command2 #this command generates a lot of misc verbose output, so we exclude it.
         Command3 -Verbose:$Verbose
     }
     Catch {
