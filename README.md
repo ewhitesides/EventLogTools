@@ -24,8 +24,7 @@ New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-Stream
 New-LongRunningCommand *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 ```
 
-In my functions I've been following the below structure to stop on the first error and pass that error down the pipeline into Write-StreamToEventLog.  
-If you have found a better way of doing this let me know!
+In my functions I've been following the below structure to stop on the first error and pass that error down the pipeline into Write-StreamToEventLog.
 
 ```powershell
 Function MyFunction {
@@ -38,7 +37,7 @@ Function MyFunction {
         $ErrorActionPreference = 'Stop'
         Command1 -Verbose:$Verbose #if MyFunction was called with Verbose switch, we want verbose output from this as well
         Command2 #this command generates a lot of misc verbose output, so we exclude it.
-        Command3 -Verbose:$Verbose
+        Command3 -Verbose:$Verbose #same as Command1
     }
     Catch {
         $ErrorActionPreference = 'Continue' #allows error to be passed down the pipeline
