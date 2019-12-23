@@ -17,7 +17,7 @@ function Write-StreamToEventLog {
         [switch]$BreakOnError,
 
         [Parameter(Mandatory=$false)]
-        [switch]$BreakOnWarning,
+        [switch]$BreakOnWarning
     )
 
     $EntryType = switch ($Stream.GetType().FullName) {
