@@ -18,6 +18,7 @@ jobs:
         if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer is reporting some issues"}
     - name: Publish to PSGallery Repo
       env:
-        key: ${{ secrets.EventLogToolsApiKey }} 
+        nugetkey: ${{ secrets.EventLogToolsApiKey}} 
       run:
-        Publish-Module -Name 'EventLogTools' -NuGetApiKey $key
+        if ($nugetkey) {write-host 'there is something inside nugetkey var'}
+        #Publish-Module -Name 'EventLogTools' -NuGetApiKey $nugetkey
