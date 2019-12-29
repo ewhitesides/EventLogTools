@@ -20,6 +20,5 @@ jobs:
       env:
         NUGETAPIKEY: ${{ secrets.EventLogTools }} 
       run:
-        if ($env:NUGETAPIKEY) {write-host 'there is something inside nugetkey var'}
-        else {write-host 'nope nothing'}
-        #Publish-Module -Name 'EventLogTools' -NuGetApiKey $env:NUGETAPIKEY
+        Publish-Module -Name 'EventLogTools' -NuGetApiKey $env:NUGETAPIKEY
+        
