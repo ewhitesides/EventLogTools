@@ -20,4 +20,4 @@ jobs:
       env:
         key: ${{ secrets.EventLogToolsApiKey }} 
       run:
-        write-host 'need to write more code here'
+        Publish-Module -Name 'EventLogTools' -NuGetApiKey $key
