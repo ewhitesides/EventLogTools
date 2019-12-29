@@ -19,7 +19,7 @@ jobs:
     - name: Publish to PSGallery Repo
       env:
         NUGETAPIKEY: ${{ secrets.EventLogToolsApiKey }} 
-      run:
+      run: |
         if ($NUGETAPIKEY) {write-host 'there is something inside nugetkey var'}
         else {write-host 'nope nothing'}
         #Publish-Module -Name 'EventLogTools' -NuGetApiKey $nugetkey
