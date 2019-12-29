@@ -21,5 +21,6 @@ jobs:
         NUGETAPIKEY: ${{ secrets.EventLogTools }} 
       run:
         write-host "current path is $pwd.Path"
-        test-path -path 'c:\program files\windowspowershell\modules'
+        if (test-path -path 'c:\program files\windowspowershell\modules') {write-host 'path exists'}
+        else {write-host 'path doesn't exist}
         Publish-Module -Name 'EventLogTools' -NuGetApiKey $env:NUGETAPIKEY
