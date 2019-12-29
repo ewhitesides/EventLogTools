@@ -20,5 +20,6 @@ jobs:
       env:
         NUGETAPIKEY: ${{ secrets.EventLogTools }} 
       run:
+        write-host "current path is $pwd.Path"
+        test-path -path 'c:\program files\windowspowershell\modules'
         Publish-Module -Name 'EventLogTools' -NuGetApiKey $env:NUGETAPIKEY
-        
