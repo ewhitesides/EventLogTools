@@ -16,11 +16,14 @@ jobs:
     - name: Run Invoke-ScriptAnalyzer
       run:
         if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer is reporting some issues"}
+    - name: Copy to Modules Folder
+      run: 
+        $ModuleFolder = 'c:\program files\windowspowershell\modules\EventLogTools'
+        New-Item -ItemType 'Directory' -Path $ModuleFolder
+        Get-ChildItem -Path . -Recurse | Copy-Item -Destination $ModuleFolder
     - name: Publish to PSGallery Repo
       env:
         NUGETAPIKEY: ${{ secrets.EventLogTools }} 
       run:
-        #write-host "current path is $pwd.Path"
-        if (test-path -path 'c:\program files\windowspowershell\modules') {write-host 'path exists'}
-        else {write-host 'path doesn't exist}
+        Import-Module -Name EventLogTools
         #Publish-Module -Name 'EventLogTools' -NuGetApiKey $env:NUGETAPIKEY
