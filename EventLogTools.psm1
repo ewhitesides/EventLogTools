@@ -19,7 +19,7 @@ The log source
 Causes the pipeline to break when an error message is sent to Stream
 
 .PARAMETER BreakOnWarning
-Causes the pipeline to break when a warning message is sent to Stream 
+Causes the pipeline to break when a warning message is sent to Stream
 
 .EXAMPLE
 MyCommand -Verbose *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'
