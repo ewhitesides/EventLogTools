@@ -22,7 +22,7 @@ Causes the pipeline to break when an error message is sent to Stream
 Causes the pipeline to break when a warning message is sent to Stream
 
 .EXAMPLE
-MyCommand -Verbose *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'
+MyCommand -Verbose *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 This example takes the result messages from MyCommand and writes to the Application\Powershell log.
 #>
     [CmdletBinding()]
