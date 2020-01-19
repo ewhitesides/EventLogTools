@@ -15,12 +15,6 @@ The log name
 .PARAMETER Source
 The log source
 
-.PARAMETER BreakOnError
-Causes the pipeline to break when an error message is sent to Stream
-
-.PARAMETER BreakOnWarning
-Causes the pipeline to break when a warning message is sent to Stream
-
 .EXAMPLE
 MyCommand -Verbose *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
 This example takes the result messages from MyCommand and writes to the Application\Powershell log.
@@ -37,13 +31,7 @@ This example takes the result messages from MyCommand and writes to the Applicat
         [string]$LogName,
 
         [Parameter(Mandatory=$false)]
-        [string]$Source,
-
-        [Parameter(Mandatory=$false)]
-        [switch]$BreakOnError,
-
-        [Parameter(Mandatory=$false)]
-        [switch]$BreakOnWarning
+        [string]$Source
     )
 
     $EntryType = switch ($Stream.GetType().FullName) {
@@ -53,7 +41,4 @@ This example takes the result messages from MyCommand and writes to the Applicat
     }
 
     Write-Eventlog -LogName $LogName -Source $Source -Entrytype $EntryType -EventId $ID -Message $Stream
-
-    if ($EntryType -eq 'Error' -and $BreakOnError)     {Break}
-    if ($EntryType -eq 'Warning' -and $BreakOnWarning) {Break}
 }
