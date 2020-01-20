@@ -1,9 +1,8 @@
 # EventLogTools
 As a function runs, it may output several verbose, information, warning, or error messages. 
-Write-StreamToEventLog takes each message and logs it to the Windows event log.
+Write-StreamToEventLog takes each message and logs it to the Windows event log. 
 
-This is especially useful when you are trying to run a custom function on a schedule, 
-and you use a logging utility to parse the windows event log for warnings/errors.
+The below table outlines the Stream to Entry Type mapping:
 
 | Stream # | Stream Name    | Object Type                                      | Resulting Windows Event Entry Type |
 |:---------|:---------------|:-------------------------------------------------|:-----------------------------------|
@@ -14,14 +13,25 @@ and you use a logging utility to parse the windows event log for warnings/errors
 | 5        | Debug          | [System.Management.Automation.DebugRecord]       | Information                        |
 | 6        | Information    | [System.Management.Automation.InformationRecord] | Information                        |
 
-## Usage Example
+## Installation
 ```powershell
-New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
+Install-Module EventLogTools
 ```
-
-## Usage Example
+## Inline Help
 ```powershell
-New-LongRunningCommand *>&1 | % {$i++;Write-StreamToEventLog -Stream $_ -ID $i -Logname 'Application' -Source 'Powershell'}
+Get-Help -Command Write-StreamToEventLog -Full
+```
+## Usage Example with manually specifying Event ID
+```powershell
+New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -ID 1000
+```
+## Usage Example with auto incrementing Event ID
+```powershell
+MyCommand -Verbose *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -AutoID Increment
+```
+## Usage Example with Event ID based on Hash of Stream Message and Entry Type
+```powershell
+MyCommand -Verbose *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -AutoID Hash
 ```
 ## Example
 Example structure for a function that stops operation on the first error, and then sends the error message down the pipeline.
@@ -42,7 +52,6 @@ Function MyFunction {
         Command3 -Verbose:$Verbose     #this command is never executed because of the above Error
     }
     Catch {
-        $ErrorActionPreference = 'Continue' #allows error to be passed down the pipeline
         $PSCmdlet.WriteError($_)            #Writes out the error message from ErrorCommand
         Break                               #stops MyFunction from continuing
     }
