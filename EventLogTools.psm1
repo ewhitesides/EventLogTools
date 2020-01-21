@@ -37,13 +37,13 @@ a simple script/module that generates a handful of messages, the chance of colli
         [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
         [string[]]$Stream,
 
-        [Parameter(Mandatory=$false,ParameterSetName='Manual')]
+        [Parameter(Mandatory=$true,ParameterSetName='Manual')]
         [ValidateRange(0,[uint16]::MaxValue)]
         [int]$ID,
 
-        [Parameter(Mandatory=$false,ParameterSetName='Auto')]
+        [Parameter(Mandatory=$true,ParameterSetName='Auto')]
         [ValidateSet('Hash','Increment')]
-        [string]$AutoID='Hash',
+        [string]$AutoID,
 
         [Parameter(Mandatory=$true)]
         [string]$LogName,
@@ -63,7 +63,7 @@ a simple script/module that generates a handful of messages, the chance of colli
                 default                                      {'Information'}
             }
 
-            #Get ID Number - If AutoID was not specified, take the one specified by the user
+            #Get ID Number - If ID was not specified, generate one (default is to Hash)
             if ($AutoID) {
                 switch ($AutoID) {
                     'Hash'      {$ID = Get-IDFromMessage -Message ($EntryType+$StreamItem)}
