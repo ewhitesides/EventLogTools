@@ -1,4 +1,4 @@
-name: Powershell
+name: PublishToPSGallery
 
 on: 
   push:
