@@ -35,7 +35,7 @@ a simple script/module that generates a handful of messages, the chance of colli
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-        [string[]]$Stream,
+        [Object[]]$Stream,
 
         [Parameter(Mandatory=$true,ParameterSetName='Manual')]
         [ValidateRange(0,[uint16]::MaxValue)]
@@ -56,7 +56,6 @@ a simple script/module that generates a handful of messages, the chance of colli
 
         ForEach ($StreamItem in $Stream) {
 
-            #Determine Entry Type
             $EntryType = switch ($StreamItem.GetType().FullName) {
                 'System.Management.Automation.ErrorRecord'   {'Error'}
                 'System.Management.Automation.WarningRecord' {'Warning'}
