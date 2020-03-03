@@ -49,7 +49,7 @@ a simple script/module that generates a handful of messages, the chance of colli
         [string]$LogName,
 
         [Parameter(Mandatory=$false)]
-        [string]$Source
+        [string]$Source,
     )
 
     PROCESS {
