@@ -1,8 +1,8 @@
 name: PublishToPSGallery
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - master
 
 jobs:
@@ -13,11 +13,14 @@ jobs:
     - name: Install PSScriptAnalyzer module
       run:
         Install-Module -Name 'PSScriptAnalyzer' -Force
+    - name: Change directory
+      run:
+        cd ./EventLogTools
     - name: Run Invoke-ScriptAnalyzer
       run:
-        if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer is reporting some issues"}
+        if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer found issues"}
     - name: Publish to PSGallery Repo
       env:
-        NUGETAPIKEY: ${{ secrets.PSGalleryKey }} 
+        NUGETAPIKEY: ${{ secrets.PSGalleryKey }}
       run:
         Publish-Module -Path . -NuGetApiKey $env:NUGETAPIKEY
