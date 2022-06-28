@@ -8,14 +8,13 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      working-directory: ./EventLogTools
     steps:
     - uses: actions/checkout@v1
     - name: Install PSScriptAnalyzer module
       run:
         Install-Module -Name 'PSScriptAnalyzer' -Force
-    - name: Change directory
-      run:
-        cd ./EventLogTools
     - name: Run Invoke-ScriptAnalyzer
       run:
         if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer found issues"}
