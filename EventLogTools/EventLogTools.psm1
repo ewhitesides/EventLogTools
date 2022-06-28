@@ -1,13 +1,21 @@
 function New-PS5EventLog {
 <#
 .DESCRIPTION
-Idompotent command to create a new event log.
+Command to idempotent create a new event log
 
 .PARAMETER Logname
 The log name.
 
 .PARAMETER Source
 The log source.
+
+.EXAMPLE
+New-PS5EventLog -LogName 'Application' -Source 'Testing'
+idempotent creation of Event Log Source 'Testing' in 'Application'
+
+.EXAMPLE
+New-PS5EventLog -LogName 'Application' -Source 'Testing' -WhatIf
+shows what would happen if the command were run
 #>
 
     [CmdletBinding(SupportsShouldProcess)]
