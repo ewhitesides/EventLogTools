@@ -40,13 +40,13 @@ New-PS5EventLog -LogName 'Application' -Source 'Testing'
 ### Example with manually specifying Event ID
 
 ```powershell
-New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -ID 1000
+New-Item -ItemType File -Path C:\testme.txt -Verbose *>&1 | Write-StreamToEventLog -Logname 'Application' -Source 'Testing' -ID 1000
 ```
 
 ### Example with auto incrementing Event ID
 
 ```powershell
-MyCommand -Verbose *>&1 | Write-StreamToEventLog -Logname 'Application' -Source 'Powershell' -AutoID 'Increment'
+MyCommand -Verbose *>&1 | Write-StreamToEventLog -Logname 'Application' -Source 'Testing' -AutoID 'Increment'
 ```
 
 ### Example with Event ID based on Hash of Stream Message and Entry Type
