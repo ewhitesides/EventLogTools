@@ -8,17 +8,20 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    env:
-      NUGETAPIKEY: ${{ secrets.PSGalleryKey }}
-      working-directory: ./EventLogTools
     steps:
     - uses: actions/checkout@v1
+
     - name: Install PSScriptAnalyzer module
       run:
         Install-Module -Name 'PSScriptAnalyzer' -Force
+
     - name: Run Invoke-ScriptAnalyzer
+      working-directory: ./EventLogTools
       run:
         if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer found issues"}
+
     - name: Publish to PSGallery Repo
+      env: NUGETAPIKEY: ${{ secrets.PSGalleryKey }}
+      working-directory: ./EventLogTools
       run:
         Publish-Module -Path . -NuGetApiKey $env:NUGETAPIKEY
