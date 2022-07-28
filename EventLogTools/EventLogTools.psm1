@@ -45,7 +45,7 @@ Catch {
 "@
 
         & $WinPS -Command "$Command"
-        Write-Information "Created eventlog $LogSource in $LogName"
+        Write-Information "Created eventlog $Source in $LogName"
 
     }
 }
