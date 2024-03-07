@@ -112,7 +112,8 @@ PrivateData = @{
         # ReleaseNotes of this module
         ReleaseNotes = @"
 5.0.0.0
-    updates now that powershell 7.4 works with eventlog cmdlets
+    breaking changes!
+    refactor code now that powershell 7.4 can work directly with eventlog cmdlets
 3.2
     update README, inline help
 3.1
