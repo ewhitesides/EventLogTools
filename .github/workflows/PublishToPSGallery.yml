@@ -13,12 +13,19 @@ jobs:
     - name: Install PSScriptAnalyzer module
       run:
         Install-Module -Name 'PSScriptAnalyzer' -Force
+    - name: Install Pester module
+      run:
+        Install-Module -Name 'Pester' -Force
     - name: Run Invoke-ScriptAnalyzer
       working-directory: ./EventLogTools
       run:
         if (Invoke-ScriptAnalyzer -Path .) {Write-Error "Invoke-ScriptAnalyzer found issues"}
+    - name: Run Pester tests
+      working-directory: ./Test
+      run:
+        Invoke-Pester -Path .
     - name: Publish to PSGallery Repo
-      env: 
+      env:
         NUGETAPIKEY: ${{ secrets.PSGalleryKey }}
       working-directory: ./EventLogTools
       run:
