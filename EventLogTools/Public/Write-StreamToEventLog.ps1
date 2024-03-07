@@ -53,58 +53,43 @@ a simple script/module that generates a handful of messages, the chance of colli
     )
 
     BEGIN {
-        #Load in variables
-        $WinPS=(Get-Command -Name 'powershell.exe').source
-
-        #Load in functions
-        function Get-IDFromMessage {
-            Param(
-                [Parameter(Mandatory=$true)]
-                [string]$Message,
-
-                [Parameter(Mandatory=$false)]
-                [ValidateSet('MD5','RIPEMD160','SHA1','SHA256','SHA384','SHA512')]
-                [string]$HashName='MD5'
-            )
-
-            #Get Hash of Message
-            $Bytes = [System.Text.Encoding]::UTF8.GetBytes($Message)
-            $Hash = ([System.Security.Cryptography.HashAlgorithm]::Create($HashName).ComputeHash($Bytes) -join '').ToString()
-            $HashLength = $Hash.Length
-
-            #Max event ID cannot be higher than 65535, which is uint16 max value
-            $MaxIDValue = ([uint16]::MaxValue).ToString()
-            $MaxIDValueLength = $MaxIDValue.Length
-
-            #Loop through the number until we find a number lower than 65535
-            for ($i=0;$i -lt ($HashLength - $MaxIDValueLength);$i++) {
-                $Output = $Hash.SubString($i,$MaxIDValueLength)
-                if ($Output -lt $MaxIDValue) {return $Output}
+        Try {
+            New-EventLog -LogName $LogName -Source $Source -ErrorAction 'Stop'
+        }
+        Catch {
+            if (
+                $_.Exception -and
+                $_.Exception.Message -and
+                $_.Exception.Message -notmatch 'already registered'
+            ) {
+                throw $_
             }
         }
     }
 
     PROCESS {
-
         ForEach ($StreamItem in $Stream) {
-
             $EntryType = switch ($StreamItem.GetType().FullName) {
-                'System.Management.Automation.ErrorRecord'   {'Error'}
+                'System.Management.Automation.ErrorRecord' {'Error'}
                 'System.Management.Automation.WarningRecord' {'Warning'}
-                default                                      {'Information'}
+                default {'Information'}
             }
 
-            #Get ID Number - If ID was not specified, generate one (default is to Hash)
             if ($AutoID) {
                 switch ($AutoID) {
-                    'Hash'      {$ID = Get-IDFromMessage -Message ($EntryType+$StreamItem)}
+                    'Hash' {$ID = Get-Id -Message ($EntryType+$StreamItem)}
                     'Increment' {$ID++}
                 }
             }
 
-            #Write to Log
-            $WriteCmd = "Write-EventLog -LogName $LogName -Source $Source -EntryType $EntryType -EventId $ID -Message '$StreamItem'"
-            & $WinPS -Command "$WriteCmd"
+            $WriteEventLog = @{
+                LogName   = $LogName
+                Source    = $Source
+                EntryType = $EntryType
+                EventId   = $ID
+                Message   = $StreamItem
+            }
+            Write-EventLog @WriteEventLog
         }
     }
 }
