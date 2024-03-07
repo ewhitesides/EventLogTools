@@ -7,7 +7,10 @@ Takes output from a command and sends to EventLog.
 The output stream should go to this parameter.
 
 .PARAMETER ID
-The event ID you want to use.
+The event ID you want to use if want to specify it manually.
+
+.PARAMETER AutoID
+The method to use to generate the event ID.  Options are 'Hash' and 'Increment'.
 
 .PARAMETER Logname
 The log name.
@@ -16,16 +19,16 @@ The log name.
 The log source.
 
 .EXAMPLE
-New-Item -Verbose *>&1 | Write-StreamToEventLog -LogName Application -Source Powershell -ID 1000
+MyFunction *>&1 | Write-StreamToEventLog -LogName Application -Source Powershell -ID 1000
 This example writes the result of the New-Item command to the eventlog Application\Powershell with an event ID of 1000
 
 .EXAMPLE
-MyCommand -Verbose *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -AutoID Increment
+MyFunction *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -AutoID Increment
 This example writes the result of MyCommand to the eventlog Application\Powershell.
 The id is simply incremented as it comes in. The ids are not unique to the stream message.
 
 .EXAMPLE
-MyCommand -Verbose *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -AutoID Hash
+MyFunction *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -AutoID Hash
 This example writes the result of MyCommand to the eventlog Application\Powershell.
 The id is auto generated based on a MD5 hash of the message being sent to Stream and the EntryType.
 The result is the ID number will be unique and repeatable.
