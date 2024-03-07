@@ -53,18 +53,7 @@ a simple script/module that generates a handful of messages, the chance of colli
     )
 
     BEGIN {
-        Try {
-            New-EventLog -LogName $LogName -Source $Source -ErrorAction 'Stop'
-        }
-        Catch {
-            if (
-                $_.Exception -and
-                $_.Exception.Message -and
-                $_.Exception.Message -notmatch 'already registered'
-            ) {
-                throw $_
-            }
-        }
+        New-IdempotentEventLog -LogName $LogName -Source $Source
     }
 
     PROCESS {
