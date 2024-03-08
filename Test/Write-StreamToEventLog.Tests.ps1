@@ -26,8 +26,8 @@ Describe "Write-StreamToEventLog" {
 
     Context "When writing to event log with manual ID" {
         BeforeEach {
-            #sleep so timegenerated for each log entry is different
-            #which is important for getting the latest entry
+            #wait before each test so that when we get the
+            #latest entry, it is the correct entry for each test
             Start-Sleep -Seconds 2
         }
 
@@ -115,8 +115,6 @@ Describe "Write-StreamToEventLog" {
 
     Context "When writing to event log with auto-generated ID using hash" {
         BeforeEach {
-            #sleep so timegenerated for each log entry is different
-            #which is important for getting the latest entry
             Start-Sleep -Seconds 2
         }
 
@@ -154,6 +152,10 @@ Describe "Write-StreamToEventLog" {
     }
 
     Context "When writing to event log with auto-incremented ID" {
+        BeforeEach {
+            Start-Sleep -Seconds 2
+        }
+
         It 'Should write info stream to event log' {
             function SimulatedProgramOutput {
                 Write-Information "increment test info 1"
