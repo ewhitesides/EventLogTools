@@ -18,7 +18,6 @@ Describe "Write-StreamToEventLog" {
         }
 
         . "$PSScriptRoot/../EventLogTools/Private/Get-Id.ps1"
-        . "$PSScriptRoot/../EventLogTools/Public/New-IdempotentEventLog.ps1"
         . "$PSScriptRoot/../EventLogTools/Public/Write-StreamToEventLog.ps1"
     }
 
@@ -141,6 +140,21 @@ Describe "Write-StreamToEventLog" {
         }
 
         It 'Should write info stream to event log' {
+            Write-Information $Msg *>&1 |
+            Write-StreamToEventLog -LogName $LogName -Source $Source -AutoID 'Hash'
+
+            #get the latest entry
+            $LatestEntry = Get-EventLog -LogName $LogName -Source $Source |
+            Sort-Object TimeGenerated |
+            Select-Object -Last 1
+
+            #assertion checks on latest entry
+            $LatestEntry.Message | Should -Be $Msg
+            $LatestEntry.EntryType | Should -Be 'Information'
+        }
+
+        It 'Should write info stream with a lot of special characters to event log' {
+            $Msg = "(This (( is a test message with )) special characters: !@#$%^&*()_+{}|:<>?`-=[]\;',./)"
             Write-Information $Msg *>&1 |
             Write-StreamToEventLog -LogName $LogName -Source $Source -AutoID 'Hash'
 
