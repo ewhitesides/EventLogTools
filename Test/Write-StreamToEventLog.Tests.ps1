@@ -105,8 +105,8 @@ Describe "Write-StreamToEventLog" {
             #wait so timegenerated for the entry is different
             Start-Sleep -Seconds 1
 
-            #set eap to silentlycontinue so error does not break the test
-            $ErrorActionPreference = 'SilentlyContinue'
+            #set eap to continue so error does not break the test
+            $ErrorActionPreference = 'Continue'
             $Msg = 'Hello this is an error test'
             $Id = '1115'
             Write-Error $Msg *>&1 |
