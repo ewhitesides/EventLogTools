@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'EventLogTools/*'
+      - 'Test/*'
 
 jobs:
   build:

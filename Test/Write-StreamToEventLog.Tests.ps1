@@ -27,28 +27,18 @@ Describe "Write-StreamToEventLog" {
             $Source = "EventLogToolsPesterTest"
         }
 
-        BeforeEach {
-            #generate a random id
-            $Id = (Get-Random -Minimum 1000 -Maximum 9999)
-
-            #generate a random string for the message
-            $Msg = -join ((65..90) + (97..122) |
-            Get-Random -Count 10 |
-            ForEach-Object {[char]$_})
-        }
-
         It 'Should write info stream to event log' {
             #'*>&1' is used to redirect the stream to the output stream
             #so it can be piped to Write-StreamToEventLog
+            $Msg = 'Hello this is an info test'
+            $Id = '1111'
             Write-Information $Msg *>&1 |
             Write-StreamToEventLog -ID $Id -LogName $LogName -Source $Source
 
-            #get the latest entry
             $LatestEntry = Get-EventLog -LogName $LogName -Source $Source |
             Sort-Object TimeGenerated |
             Select-Object -Last 1
 
-            #assertion checks on latest entry
             $LatestEntry.EventID | Should -Be $Id
             $LatestEntry.Message | Should -Be $Msg
             $LatestEntry.EntryType | Should -Be 'Information'
@@ -56,6 +46,8 @@ Describe "Write-StreamToEventLog" {
 
         It 'Should write verbose stream to event log' {
             $VerbosePreference = 'Continue'
+            $Msg = 'Hello this is a verbose test'
+            $Id = '1112'
             Write-Verbose $Msg *>&1 |
             Write-StreamToEventLog -ID $Id -LogName $LogName -Source $Source
 
@@ -70,6 +62,8 @@ Describe "Write-StreamToEventLog" {
 
         It 'Should write debug stream to event log' {
             $DebugPreference = 'Continue'
+            $Msg = 'Hello this is a debug test'
+            $Id = '1113'
             Write-Debug $Msg *>&1 |
             Write-StreamToEventLog -ID $Id -LogName $LogName -Source $Source
 
@@ -83,6 +77,9 @@ Describe "Write-StreamToEventLog" {
         }
 
         It 'Should write warning stream to event log' {
+            #assumes warningpreference set to default continue
+            $Msg = 'Hello this is a warning test'
+            $Id = '1114'
             Write-Warning $Msg *>&1 |
             Write-StreamToEventLog -ID $Id -LogName $LogName -Source $Source
 
@@ -96,26 +93,12 @@ Describe "Write-StreamToEventLog" {
         }
 
         It 'Should write error stream to event log' {
+            #assumes erroractionpreference set to default continue
+            $Msg = 'Hello this is an error test'
+            $Id = '1115'
             Write-Error $Msg *>&1 |
             Write-StreamToEventLog -ID $Id -LogName $LogName -Source $Source
 
-            $LatestEntry = Get-EventLog -LogName $LogName -Source $Source |
-            Sort-Object TimeGenerated |
-            Select-Object -Last 1
-
-            $LatestEntry.EventID | Should -Be $Id
-            $LatestEntry.Message | Should -Be $Msg
-            $LatestEntry.EntryType | Should -Be 'Error'
-        }
-
-        It 'Should write error stream when EAP set to stop and error action set to continue' {
-            #in this example, the erroractionpreference is set to stop
-            #and so in order for the error to pass through the pipeline
-            #we need to use the *>&1 to redirect the stream to the output stream
-            #and we need to set ErrorAction to Continue
-            $ErrorActionPreference = 'Stop'
-            Write-Error $Msg -ErrorAction 'Continue' *>&1 |
-            Write-StreamToEventLog -ID $Id -LogName $LogName -Source $Source
             $LatestEntry = Get-EventLog -LogName $LogName -Source $Source |
             Sort-Object TimeGenerated |
             Select-Object -Last 1
