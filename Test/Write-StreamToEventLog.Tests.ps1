@@ -45,6 +45,9 @@ Describe "Write-StreamToEventLog" {
         }
 
         It 'Should write verbose stream to event log' {
+            #wait so timegenerated for the entry is different
+            Start-Sleep -Seconds 1
+
             $VerbosePreference = 'Continue'
             $Msg = 'Hello this is a verbose test'
             $Id = '1112'
@@ -61,6 +64,9 @@ Describe "Write-StreamToEventLog" {
         }
 
         It 'Should write debug stream to event log' {
+            #wait so timegenerated for the entry is different
+            Start-Sleep -Seconds 1
+
             $DebugPreference = 'Continue'
             $Msg = 'Hello this is a debug test'
             $Id = '1113'
@@ -77,6 +83,9 @@ Describe "Write-StreamToEventLog" {
         }
 
         It 'Should write warning stream to event log' {
+            #wait so timegenerated for the entry is different
+            Start-Sleep -Seconds 1
+
             #assumes warningpreference set to default continue
             $Msg = 'Hello this is a warning test'
             $Id = '1114'
@@ -93,7 +102,11 @@ Describe "Write-StreamToEventLog" {
         }
 
         It 'Should write error stream to event log' {
-            #assumes erroractionpreference set to default continue
+            #wait so timegenerated for the entry is different
+            Start-Sleep -Seconds 1
+
+            #set eap to silentlycontinue so error does not break the test
+            $ErrorActionPreference = 'SilentlyContinue'
             $Msg = 'Hello this is an error test'
             $Id = '1115'
             Write-Error $Msg *>&1 |
