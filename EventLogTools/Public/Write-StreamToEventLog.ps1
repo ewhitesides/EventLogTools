@@ -20,17 +20,18 @@ The log source.
 
 .EXAMPLE
 MyFunction *>&1 | Write-StreamToEventLog -LogName Application -Source Powershell -ID 1000
-This example writes the result of the New-Item command to the eventlog Application\Powershell with an event ID of 1000
+This example writes the result of MyFunction to the eventlog Application\Powershell with an event ID of 1000
 
 .EXAMPLE
 MyFunction *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -AutoID Increment
-This example writes the result of MyCommand to the eventlog Application\Powershell.
-The id is simply incremented as it comes in. The ids are not unique to the stream message.
+This example writes the result of MyFunction to the eventlog Application\Powershell.
+The id is simply incremented as it comes in. Not recommended for code that runs on loop because eventually
+it will exceed the maximum event ID of 65535.
 
 .EXAMPLE
 MyFunction *>&1 | Write-StreamToEventLog -Logname Application -Source Powershell -AutoID Hash
-This example writes the result of MyCommand to the eventlog Application\Powershell.
-The id is auto generated based on a MD5 hash of the message being sent to Stream and the EntryType.
+This example writes the result of MyFunction to the eventlog Application\Powershell.
+The id is auto generated based on a MD5 hash (default) of the message being sent to Stream and the EntryType.
 The result is the ID number will be unique and repeatable.
 The range of Event IDs is 0-65535 , so when hashing to a 5 digit number, there is a chance of collision, however with
 a simple script/module that generates a handful of messages, the chance of collision should be pretty low.
@@ -56,7 +57,18 @@ a simple script/module that generates a handful of messages, the chance of colli
     )
 
     BEGIN {
-        New-IdempotentEventLog -LogName $LogName -Source $Source
+        Try {
+            New-EventLog -LogName $LogName -Source $Source -ErrorAction 'Stop'
+        }
+        Catch {
+            if (
+                $_.Exception -and
+                $_.Exception.Message -and
+                $_.Exception.Message -notmatch 'already registered'
+            ) {
+                throw $_
+            }
+        }
     }
 
     PROCESS {
