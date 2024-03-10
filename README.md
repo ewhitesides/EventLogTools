@@ -1,7 +1,10 @@
 # EventLogTools
 
-As a function runs, it may output several verbose, information, warning, or error messages.
-Write-StreamToEventLog takes each message and logs it to the Windows event log.
+As a function runs, it may output messages of type verbose, information,
+warning, error, etc.
+
+Write-StreamToEventLog gives us a way to pipe these messages to the Windows Event
+log and if selected, automatically generate an event id.
 
 The below table outlines the Stream to Entry Type mapping:
 
@@ -13,6 +16,28 @@ The below table outlines the Stream to Entry Type mapping:
 | 4        | Verbose        | [System.Management.Automation.VerboseRecord]     | Information                        |
 | 5        | Debug          | [System.Management.Automation.DebugRecord]       | Information                        |
 | 6        | Information    | [System.Management.Automation.InformationRecord] | Information                        |
+
+## Important changes between EventLogTools version 4 and 5
+
+It seems that event log cmdlets now work directly with powershell 7.4, and so
+in version 5.0.0.0 of EventLogTools, the code has been updated to call cmdlets
+such as New-EventLog and Write-EventLog directly.
+
+In version 4.0.0.0 the code was passing EventLog cmdlets through powershell.exe.
+
+In addition, the new version 5.0.0.0 has simplified to use a single function,
+Write-StreamToEventLog.
+
+To create a new event log source, you will need to run this function first as an admin:
+
+```pwsh
+#run as admin first time
+Write-Information 'creating new event log source' |
+Write-StreamToEventLog -LogName Application -Source MyProgram -ID 1000
+```
+
+On future uses it should work as a regular user. If you always run your script with
+an account with administrative rights, this should not be an issue.
 
 ## Installation
 
