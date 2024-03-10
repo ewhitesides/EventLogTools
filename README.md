@@ -25,7 +25,7 @@ such as New-EventLog and Write-EventLog directly.
 
 In version 4.0.0.0 the code was passing EventLog cmdlets through powershell.exe.
 
-In addition, the new version 5.0.0.0 has simplified to use a single function,
+In addition, the new version 5.0.0.0 has been simplified to use a single function,
 Write-StreamToEventLog.
 
 To create a new event log source, you will need to run this function first as an admin:
