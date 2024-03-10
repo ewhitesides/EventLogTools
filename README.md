@@ -41,8 +41,16 @@ an account with administrative rights, this should not be an issue.
 
 ## Installation
 
-```powershell
+install as current user
+
+```pwsh
 Install-PsResource -name 'EventLogTools' -Repository 'PSGallery'
+```
+
+install for all users
+
+```pwsh
+Install-PsResource -name 'EventLogTools' -Repository 'PSGallery' -Scope AllUsers
 ```
 
 ## Inline Help
